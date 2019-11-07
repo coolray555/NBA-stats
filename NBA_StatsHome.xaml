@@ -1,0 +1,73 @@
+<Page x:Class="NBA_Stats.NBA_StatsHome"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:NBA_Stats"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="800"
+      Title="NBA Stats Home">
+
+
+    <Grid Margin="10,0" Height="490" VerticalAlignment="Top">
+
+        <Grid.Resources>
+            <!-- Player Stats Data -->
+            <XmlDataProvider x:Key="StatDataSource" XPath="Stats">
+                <x:XData>
+                    <Stats xmlns="">
+                        <Player Name="Lebron James" Position="Power Forward/Small Forward">
+                            <Stat StatType="PPG" StatValue="27.2" />
+                            <Stat StatType="FG%" StatValue="50.4" />
+                        </Player>
+                        <Player Name="Kevin Durant" Position="Shooting Guard">
+                            <Stat StatType="PPG" StatValue="27.0" />
+                            <Stat StatType="FG%" StatValue="49.3" />
+                        </Player>
+                        <Player Name="Steph Curry" Position="Point Guard">
+                            <Stat StatType="PPG" StatValue="23.5" />
+                            <Stat StatType="FG%" StatValue="47.6" />
+                        </Player>
+                    </Stats>
+                </x:XData>
+            </XmlDataProvider>
+
+            <!-- Name item template -->
+            <DataTemplate x:Key="playerItemTemplate">
+                <Label Content="{Binding XPath=@Name}"/>
+            </DataTemplate>
+
+        </Grid.Resources>
+
+        <Grid.Background>
+            <ImageBrush ImageSource="basketball.jpg"  />
+        </Grid.Background>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="230" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!--NBA player list-->
+        <Label Style="{StaticResource headerTextStyle}" Content="Home Page" Margin="10,0,220,137" Grid.ColumnSpan="2" />
+
+        <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource listHeaderStyle}">
+            <Label Style="{StaticResource listHeaderTextStyle}">Players</Label>
+        </Border>
+
+        <ListBox Name="playerListBox" Grid.Column="1" Grid.Row="2" Margin="0,0,0,167"
+            ItemsSource="{Binding Source={StaticResource StatDataSource}, XPath=Player}"
+            ItemTemplate="{StaticResource playerItemTemplate}">
+        </ListBox>
+
+        <!--View Stats button-->
+        <Button Grid.Column="1" Grid.Row="3" Click="Button_Click" Style="{StaticResource buttonStyle}">View</Button>
+    </Grid>
+</Page>
